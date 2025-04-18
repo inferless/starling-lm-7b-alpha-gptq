@@ -1,82 +1,38 @@
 # Starling-LM-7B-alpha-GPTQ with vLLM
 Starling-7B, an open large language model (LLM) trained by Reinforcement Learning from AI Feedback (RLAIF). The model harnesses the power of our new GPT-4 labeled ranking dataset, berkeley-nest/Nectar, and our new reward training and policy tuning pipeline.
 
-## Deploy Starling-7B using Inferless:
+## TL;DR:
 - Deployment of Starling-7B model using [vLLM](https://github.com/vllm-project/vllm).
 - By using the vLLM, you can expect an average latency of 1.07 sec.
-
----
-## Prerequisites
-- **Git**. You would need git installed on your system if you wish to customize the repo after forking.
-- **Python>=3.8**. You would need Python to customize the code in the app.py according to your needs.
-- **Curl**. You would need Curl if you want to make API calls from the terminal itself.
-
----
-## Quick Start
-Here is a quick start to help you get up and running with this template on Inferless.
-
-### Download the config-vllm and Create a runtime 
-Get started by downloading the config-vllm.yaml file and go to Inferless dashboard and create a custom runtime 
-
-Quickly add this as a Custom runtime
+- Dependencies defined in `inferless-runtime-config.yaml`.
+- GitHub/GitLab template creation with `app.py`, `inferless-runtime-config.yaml` and `inferless.yaml`.
+- Model class in `app.py` with `initialize`, `infer`, and `finalize` functions.
+- Custom runtime creation with necessary system and Python packages.
+- Model import via GitHub with `input_schema.py` file.
+- Recommended GPU: NVIDIA A100.
+- Custom runtime selection in advanced configuration.
+- Final review and deployment on the Inferless platform.
 
 ### Fork the Repository
 Get started by forking the repository. You can do this by clicking on the fork button in the top right corner of the repository page.
 
 This will create a copy of the repository in your own GitHub account, allowing you to make changes and customize it according to your needs.
 
-### Add Your Hugging Face Auth Token
-Go into the `app.py` and replace `<your_token>` with your hugging face api key. This token will be used to download weights from hugging face if you're using Llama-2. Make sure to check the repo is private to protect your hugging face key.
+### Create a Custom Runtime in Inferless
+To access the custom runtime window in Inferless, simply navigate to the sidebar and click on the Create new Runtime button. A pop-up will appear.
 
+Next, provide a suitable name for your custom runtime and proceed by uploading the **inferless-runtime-config.yaml** file given above. Finally, ensure you save your changes by clicking on the save button.
 
 ### Import the Model in Inferless
-Log in to your inferless account, select the workspace you want the model to be imported into and click the Add Model button.
+Log in to your inferless account, select the workspace you want the model to be imported into and click the `Add a custom model` button.
 
-Select the PyTorch as framework and choose **Repo(custom code)** as your model source and use the forked repo URL as the **Model URL**.
+- Select `Github` as the method of upload from the Provider list and then select your Github Repository and the branch.
+- Choose the type of machine, and specify the minimum and maximum number of replicas for deploying your model.
+- Configure Custom Runtime ( If you have pip or apt packages), choose Volume, Secrets and set Environment variables like Inference Timeout / Container Concurrency / Scale Down Timeout
+- Once you click “Continue,” click Deploy to start the model import process.
 
-After the create model step, while setting the configuration for the model make sure to select the appropriate runtime.
+Enter all the required details to Import your model. Refer [this link](https://docs.inferless.com/integrations/git-custom-code/git--custom-code) for more information on model import.
 
-Enter all the required details to Import your model. Refer [this link](https://docs.inferless.com/integrations/github-custom-code) for more information on model import.
-
-The following is a sample Input and Output JSON for this model which you can use while importing this model on Inferless.
-
-### Input
-```json
-{
-  "inputs": [
-    {
-      "data": [
-        "What is Quantum Computing?"
-      ],
-      "name": "prompt",
-      "shape": [
-        1
-      ],
-      "datatype": "BYTES"
-    }
-  ]
-}
-```
-
-### Output
-```json
-{
-  "outputs": [
-    {
-      "data": [
-        "data"
-      ],
-      "name": "generated_result",
-      "shape": [
-        1
-      ],
-      "datatype": "BYTES"
-    }
-  ]
-}
-```
-
----
 ## Curl Command
 Following is an example of the curl command you can use to make inference. You can find the exact curl command in the Model's API page in Inferless.
 ```bash
